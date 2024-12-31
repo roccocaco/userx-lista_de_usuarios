@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UserX - Lista de Usuários</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" type="image/png" href="1icon.ico" />
+  </head>
+  <body>
+    <header>
+      <h1>UserX</h1>
+      <h5>Lista de Usuários</h5>
+    </header>
+    <main>
+      <div class="search-container">
+        <input type="text" id="search" placeholder=" Buscar por nome..." />
+        <button id="clear-button">Limpar Busca</button>
+        <select id="filter-city">
+          <option value="">Filtrar por cidade</option>
+        </select>
+        <button id="add-user-button">Adicionar Usuário</button>
+      </div>
+      <div id="loading" class="hidden">Carregando...</div>
+      <ul id="user-list"></ul>
+      <div id="no-results" class="hidden">Nenhum resultado encontrado.</div>
+    </main>
+
+    <div id="add-user-modal" class="modal hidden">
+      <div class="modal-content">
+        <h2>Adicionar Usuário</h2>
+        <form id="add-user-form">
+          <div class="form-group floating-label">
+            <input
+              type="text"
+              id="user-name"
+              name="user-name"
+              placeholder=" "
+              required
+            />
+            <label for="user-name">Nome</label>
+          </div>
+          <div class="form-group floating-label">
+            <input
+              type="email"
+              id="user-email"
+              name="user-email"
+              placeholder=" "
+              required
+            />
+            <label for="user-email">E-mail</label>
+          </div>
+          <div class="form-group floating-label">
+            <input
+              type="text"
+              id="user-city"
+              name="user-city"
+              placeholder=" "
+              required
+            />
+            <label for="user-city">Cidade</label>
+          </div>
+          <button type="submit" class="submit-button">Adicionar</button>
+          <button type="button" class="close-button" id="close-modal-button">
+            Fechar
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
