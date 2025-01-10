@@ -1,0 +1,855 @@
+/* Estilo global do body */
+body {
+    font-family: arial, sans-serif;
+    /* Eu escolhi Arial ou sans-serif como a fonte padrão para o corpo da página */
+    margin: 0;
+    /* Removi as margens padrão do body para controlar melhor o layout */
+    padding: 0;
+    /* Removi o padding para que eu possa definir o espaço dentro dos elementos mais precisamente */
+    box-sizing: border-box;
+    /* Com isso, o padding e as bordas são incluídos no cálculo do tamanho do elemento, o que facilita o controle do layout */
+}
+
+/* Estilo para o header */
+header {
+    background: #464873;
+    /* Escolhi um fundo escuro para o header para dar um contraste com o texto */
+    color: white;
+    /* O texto no header vai ser branco para se destacar no fundo escuro */
+    padding: 2.5rem;
+    /* Dei um padding generoso de 2.5rem no header para criar espaço interno e torná-lo visualmente mais confortável */
+}
+
+/* Estilo específico para o h1 dentro do header */
+header h1 {
+    font-size: 3.5rem;
+    /* Aumentei o tamanho do h1 para torná-lo mais destacado */
+    margin: 0;
+    /* Removi a margem para que o h1 fique bem posicionado sem espaço extra ao redor */
+    color: transparent;
+    /* Tornar o texto transparente me permite usar o efeito de borda no texto */
+    -webkit-text-stroke: 2px white;
+    /* Adicionei uma borda branca ao redor do texto para criar um efeito de destaque */
+}
+
+/* Estilo geral para o h1 */
+h1 {
+    text-align: center;
+    /* Centralizei o h1 para que ele fique bem alinhado na página */
+    position: relative;
+    /* Usei o posicionamento relativo para poder adicionar elementos depois do h1 usando pseudo-elementos */
+}
+
+/* Adiciona conteúdo após o h1 usando o pseudoelemento ::after */
+h1::after {
+    content: "UserX";
+    /* Aqui estou colocando o texto "UserX" após o h1 usando o pseudo-elemento ::after */
+    display: inline-block;
+    /* Eu fiz com que o conteúdo aparecesse como um bloco em linha para que ele se alinhe bem com o h1 */
+}
+
+/* Estilo para a tag <main> */
+main {
+    padding: 1rem;
+    /* Adicionei padding ao main para que o conteúdo tenha um bom espaço interno e não fique colado nas bordas */
+}
+
+/* Estilo para o <h5> dentro de <main> */
+main h5 {
+    font-size: 1.5rem;
+    /* O tamanho da fonte do h5 é 1.5rem para que ele se destaque sem ser tão grande quanto o h1 */
+    text-align: left;
+    /* Alinhei o texto à esquerda porque acho que fica mais organizado e fácil de ler */
+}
+
+/* Estilo para a área de pesquisa */
+.search-container {
+    display: flex;
+    /* Usei flexbox aqui para os elementos ficarem alinhados em linha */
+    gap: 1rem;
+    /* Deixei 1rem de espaço entre os elementos dentro do container para não ficarem colados */
+    margin-bottom: 1rem;
+    /* Adicionei uma margem inferior para separar a área de pesquisa do conteúdo abaixo */
+}
+
+/* Estilo para os campos de pesquisa e filtro */
+#search,
+#filter-city {
+    border-radius: 5px;
+    /* As bordas dos inputs ficam arredondadas para um visual mais amigável */
+    outline: none;
+    /* Removi a borda que aparece quando o campo é selecionado, para um visual mais limpo */
+}
+
+/* Estilo geral para os botões */
+button {
+    padding: 10px 15px;
+    /* Coloquei 10px de padding na vertical e 15px na horizontal para os botões ficarem bem dimensionados */
+    border: none;
+    /* Removi a borda padrão dos botões para que fiquem com o visual mais limpo */
+    border-radius: 5px;
+    /* Dei bordas arredondadas para os botões para deixá-los com um visual mais moderno */
+    cursor: pointer;
+    /* Mudei o cursor para "pointer" quando passar sobre o botão, para indicar que ele é clicável */
+}
+
+/* Estilo específico para o botão de adicionar usuário */
+#add-user-button {
+    background-color: #A61F69;
+    /* Escolhi um fundo roxo para esse botão, que vai se destacar */
+    color: #fff;
+    /* O texto do botão é branco para contrastar bem com o fundo roxo */
+}
+
+/* Estilo para o botão de limpar busca */
+#clear-button {
+    background-color: #272D40;
+    /* Esse botão tem um fundo mais escuro para dar um contraste sutil com o botão de adicionar */
+    color: #fff;
+    /* O texto é branco para garantir que fique visível */
+}
+
+/* Classe para esconder elementos */
+.hidden {
+    display: none;
+    /* Quando um elemento tem a classe "hidden", ele é ocultado da página */
+}
+
+/* Estilo para a lista de usuários */
+#user-list {
+    list-style: none;
+    /* Removi os marcadores padrão das listas para que eu possa criar um estilo personalizado */
+    padding: 0;
+    /* Removi o padding da lista para ter mais controle sobre o espaçamento */
+}
+
+/* Estilo para os cards de usuários */
+.user-card {
+    display: flex;
+    /* Usei flexbox para alinhar os elementos dos cards em linha */
+    justify-content: space-between;
+    /* A ideia é que os elementos dentro do card se distribuam com espaço entre eles */
+    align-items: center;
+    /* Alinhei os elementos verticalmente ao centro para um visual mais equilibrado */
+    padding: 1rem;
+    /* Dei 1rem de padding para os cards terem um bom espaçamento interno */
+    margin-bottom: 0.5rem;
+    /* Adicionei uma margem inferior para separar os cards */
+    background-color: #f4f4f4;
+    /* Escolhi um fundo claro para os cards para que fiquem bem visíveis */
+    border: 1px solid #ddd;
+    /* Adicionei uma borda suave para os cards para dar um toque sutil de destaque */
+    border-radius: 5px;
+    /* As bordas dos cards são arredondadas para dar um visual mais amigável */
+    opacity: 0;
+    /* Iniciei os cards com opacidade 0 para que eles apareçam gradualmente */
+    animation: fadeIn 0.5s forwards;
+    /* Adicionei uma animação para os cards aparecerem com um efeito de fade-in */
+}
+
+/* Estilo para as informações do usuário dentro do card */
+.user-info span {
+    display: block;
+    /* Coloquei cada informação do usuário como um bloco para que fique organizado */
+    margin-bottom: 10px;
+    /* Dei um espaçamento entre as informações para que fiquem bem separadas */
+}
+
+/* Animação para fade-in (aparecimento gradual) */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        /* O card vai se tornar visível gradualmente */
+    }
+}
+
+/* Animação para fade-out (desaparecimento gradual) */
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        /* Quando a animação de fade-out acontecer, o card vai desaparecer gradualmente */
+    }
+}
+
+/* Classe para fade-out (usada em elementos que desaparecem) */
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+    /* Aplico a animação de fade-out para fazer com que o card desapareça suavemente */
+}
+
+
+/* Estilo para a modal */
+.modal {
+    position: fixed;
+    /* Fixa a modal na tela */
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Largura total da tela */
+    height: 100%;
+    /* Altura total da tela */
+    display: flex;
+    /* Usando flexbox para centralizar a modal */
+    justify-content: center;
+    /* Centralizando a modal horizontalmente */
+    align-items: center;
+    /* Centralizando a modal verticalmente */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Cor de fundo translúcida preta */
+    z-index: 999;
+    /* Colocando a modal acima de outros elementos */
+    transition: opacity 0.3s ease;
+    /* Transição suave para opacidade */
+}
+
+/* Modal oculta */
+.modal.hidden {
+    display: none;
+    /* Esconde a modal */
+}
+
+/* Estilo para o conteúdo da modal */
+.modal-content {
+    background: #fff;
+    /* Cor de fundo branca */
+    padding: 20px;
+    /* Preenchimento */
+    border-radius: 8px;
+    /* Bordas arredondadas */
+    width: 90%;
+    /* Largura relativa */
+    max-width: 400px;
+    /* Largura máxima */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Sombra suave */
+    text-align: center;
+    /* Alinhando o texto no centro */
+}
+
+/* Estilo para o título da modal */
+h2 {
+    margin: 30px;
+    /* Margem ao redor do título */
+}
+
+/* Estilo para campos de formulário com rótulos flutuantes */
+.floating-label {
+    position: relative;
+    /* Necessário para o posicionamento do rótulo */
+    margin-bottom: 30px;
+    /* Espaçamento inferior */
+    margin-top: 45px;
+    /* Espaçamento superior */
+}
+
+/* Estilo para o campo de input dentro da classe floating-label */
+.floating-label input {
+    width: 100%;
+    /* Largura total */
+    padding: 10px 5px;
+    /* Preenchimento interno */
+    border: 1px solid #ddd;
+    /* Borda suave */
+    border-radius: 5px;
+    /* Bordas arredondadas */
+    font-size: 16px;
+    /* Tamanho da fonte */
+    box-sizing: border-box;
+    /* Inclui borda e padding no cálculo da largura */
+}
+
+/* Estilo para o rótulo dentro da classe floating-label */
+.floating-label label {
+    position: absolute;
+    /* Posicionando o rótulo acima do campo */
+    left: 10px;
+    /* Alinha o rótulo à esquerda */
+    top: 50%;
+    /* Centraliza o rótulo verticalmente */
+    transform: translateY(-50%);
+    /* Ajusta o alinhamento vertical */
+    font-size: 16px;
+    /* Tamanho da fonte */
+    color: #aaa;
+    /* Cor do texto */
+    transition: all 0.2s ease-out;
+    /* Transição suave */
+    pointer-events: none;
+    /* Rótulo não interativo */
+}
+
+/* Estilo para o rótulo quando o input está em foco ou preenchido */
+.floating-label input:focus+label,
+.floating-label input:not(:placeholder-shown)+label {
+    top: -15px;
+    /* Posicionando o rótulo acima do campo */
+    font-size: 16px;
+    /* Tamanho da fonte */
+    color: #333;
+    /* Cor do texto */
+}
+
+/* Estilo para o campo de input quando está em foco */
+.floating-label input:focus {
+    outline: none;
+    /* Removendo o contorno padrão */
+    box-shadow: 0 0 0 2px #38393d;
+    /* Exemplo de destaque de foco */
+}
+
+/* Estilo para o botão de submissão */
+.submit-button {
+    margin-bottom: 25px;
+    /* Margem inferior */
+    background-color: #A61F69;
+    /* Cor de fundo */
+    color: #fff;
+    /* Cor do texto */
+}
+
+/* Estilo para o botão de fechamento */
+.close-button {
+    background-color: #272D40;
+    /* Cor de fundo */
+    color: #fff;
+    /* Cor do texto */
+}
+
+/* Estilo global do body */
+body {
+    font-family: arial, sans-serif;
+    /* Define a fonte padrão para Arial ou sans-serif, que é simples e de fácil leitura */
+    margin: 0;
+    /* Remove as margens padrão do body para ter controle total sobre o layout */
+    padding: 0;
+    /* Remove o padding padrão do body para evitar espaçamentos inesperados */
+    box-sizing: border-box;
+    /* Faz com que o padding e a borda sejam inclusos nas dimensões do elemento, facilitando o controle de layout */
+}
+
+/* Estilo para o header */
+header {
+    background: #464873;
+    /* Define a cor de fundo do header */
+    color: white;
+    /* Define a cor do texto no header */
+    padding: 2.5rem;
+    /* Adiciona um espaço interno de 2.5rem ao redor do conteúdo do header */
+}
+
+/* Estilo específico para o h1 dentro do header */
+header h1 {
+    font-size: 3.5rem;
+    /* Define o tamanho da fonte do h1 */
+    margin: 0;
+    /* Remove a margem do h1 para um controle de layout mais preciso */
+    color: transparent;
+    /* Torna o texto do h1 invisível */
+    -webkit-text-stroke: 2px white;
+    /* Adiciona uma borda branca ao redor do texto do h1 para dar um efeito de contorno */
+}
+
+/* Estilo geral para o h1 */
+h1 {
+    text-align: center;
+    /* Centraliza o texto do h1 */
+    position: relative;
+    /* Define o posicionamento relativo para que o conteúdo posterior ao h1 (com ::after) seja posicionado de forma relativa */
+}
+
+/* Adiciona conteúdo após o h1 usando o pseudoelemento ::after */
+h1::after {
+    content: "UserX";
+    /* Adiciona o texto "UserX" após o h1 */
+    display: inline-block;
+    /* Exibe o conteúdo de forma inline-block, para que ele ocupe um bloco mas ainda se alinhe com o texto */
+}
+
+/* Estilo para a tag <main> */
+main {
+    padding: 1rem;
+    /* Adiciona um espaço interno de 1rem ao redor do conteúdo do main */
+}
+
+/* Estilo para o <h5> dentro de <main> */
+main h5 {
+    font-size: 1.5rem;
+    /* Define o tamanho da fonte do h5 */
+    text-align: left;
+    /* Alinha o texto do h5 à esquerda */
+}
+
+/* Estilo para a área de pesquisa */
+.search-container {
+    display: flex;
+    /* Exibe os elementos dentro da search-container em linha */
+    gap: 1rem;
+    /* Adiciona um espaço de 1rem entre os elementos dentro da search-container */
+    margin-bottom: 1rem;
+    /* Adiciona uma margem inferior de 1rem para separar a área de pesquisa de outros elementos */
+}
+
+/* Estilo para os campos de pesquisa e filtro */
+#search,
+#filter-city {
+    border-radius: 5px;
+    /* Tornando as bordas dos inputs arredondadas para um visual mais moderno */
+    outline: none;
+    /* Remove o contorno padrão que aparece quando os inputs são focados */
+}
+
+/* Estilo geral para os botões */
+button {
+    padding: 10px 15px;
+    /* Adiciona 10px de padding na vertical e 15px na horizontal para botões com tamanho adequado */
+    border: none;
+    /* Remove as bordas padrão dos botões */
+    border-radius: 5px;
+    /* Tornando as bordas dos botões arredondadas */
+    cursor: pointer;
+    /* Muda o cursor para indicar que o botão é clicável */
+}
+
+/* Estilo específico para o botão de adicionar usuário */
+#add-user-button {
+    background-color: #A61F69;
+    /* Cor de fundo do botão */
+    color: #fff;
+    /* Cor do texto do botão */
+}
+
+/* Estilo para o botão de limpar busca */
+#clear-button {
+    background-color: #272D40;
+    /* Cor de fundo do botão */
+    color: #fff;
+    /* Cor do texto do botão */
+}
+
+/* Classe para esconder elementos */
+.hidden {
+    display: none;
+    /* Torna o elemento invisível */
+}
+
+/* Estilo para a lista de usuários */
+#user-list {
+    list-style: none;
+    /* Remove os marcadores de lista */
+    padding: 0;
+    /* Remove o padding da lista */
+}
+
+/* Estilo para os cards de usuários */
+.user-card {
+    display: flex;
+    /* Exibe os elementos dentro do card em linha */
+    justify-content: space-between;
+    /* Distribui os elementos do card, deixando espaços entre eles */
+    align-items: center;
+    /* Alinha os elementos verticalmente no centro */
+    padding: 1rem;
+    /* Adiciona padding ao redor do card */
+    margin-bottom: 0.5rem;
+    /* Adiciona um pequeno espaço inferior entre os cards */
+    background-color: #f4f4f4;
+    /* Cor de fundo do card */
+    border: 1px solid #ddd;
+    /* Borda suave no card */
+    border-radius: 5px;
+    /* Bordas arredondadas para os cards */
+    opacity: 0;
+    /* Inicialmente, o card está invisível */
+    animation: fadeIn 0.5s forwards;
+    /* Aplica a animação para o card aparecer gradualmente com o efeito fade-in */
+}
+
+/* Estilo para as informações do usuário dentro do card */
+.user-info span {
+    display: block;
+    /* Exibe as informações de cada usuário em bloco */
+    margin-bottom: 10px;
+    /* Adiciona um pequeno espaço abaixo de cada informação */
+}
+
+/* Animação para fade-in (aparecimento gradual) */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        /* Ao final da animação, torna o card visível */
+    }
+}
+
+/* Animação para fade-out (desaparecimento gradual) */
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        /* Ao final da animação, torna o card invisível */
+    }
+}
+
+/* Classe para fade-out (usada em elementos que desaparecem) */
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+    /* Aplica a animação de fade-out aos elementos */
+}
+
+/* Eu comecei criando a estrutura da modal. Ela é um pop-up que vai aparecer fixada na tela, sem ser afetada pelo scroll */
+.modal {
+    position: fixed;
+    /* Eu usei 'fixed' para garantir que a modal fique fixa na tela, não importa o quanto eu role */
+    top: 0;
+    /* Eu posicionei ela no topo da tela */
+    left: 0;
+    /* E também à esquerda, para que ocupe toda a tela */
+    width: 100%;
+    /* A largura vai ser 100% da tela */
+    height: 100vh;
+    /* E a altura vai ser 100% da altura da janela do navegador */
+    display: flex;
+    /* Usei o flexbox para poder alinhar os itens no centro */
+    justify-content: center;
+    /* Alinho o conteúdo no centro horizontalmente */
+    align-items: center;
+    /* E também no centro verticalmente */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Coloquei um fundo semitransparente para dar o efeito de sombreado */
+    z-index: 999;
+    /* Usei um z-index alto para garantir que a modal fique acima de outros elementos */
+    transition: opacity 0.3s ease;
+    /* Adicionei uma transição suave para o efeito de desaparecer ou aparecer */
+}
+
+/* Eu criei essa classe "hidden" para esconder a modal quando necessário */
+.modal.hidden {
+    display: none;
+    /* Quando a modal tem a classe "hidden", ela é ocultada */
+}
+
+/* Aqui eu estilizo o conteúdo da modal, que é a caixa que vai exibir as informações */
+.modal-content {
+    background: #fff;
+    /* O fundo do conteúdo é branco */
+    padding: 20px;
+    /* Eu coloquei um padding interno para deixar o conteúdo mais espaçado */
+    border-radius: 8px;
+    /* Bordas arredondadas para dar um visual mais suave */
+    width: 90%;
+    /* A largura do conteúdo será 90% da modal */
+    max-width: 400px;
+    /* Mas eu limitei a largura máxima para 400px para não ficar muito largo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Adicionei uma sombra suave para dar destaque à caixa */
+    text-align: center;
+    /* O texto dentro da modal vai ser centralizado */
+}
+
+/* Eu também estilizei o título da modal, dando um bom espaçamento ao redor */
+h2 {
+    margin: 30px;
+    /* A margem de 30px dá uma distância do título para as bordas da modal */
+}
+
+/* Aqui eu criei um estilo para os campos de formulário com rótulos flutuantes */
+.floating-label {
+    position: relative;
+    /* Para o rótulo flutuar sobre o campo, preciso de um 'position: relative' */
+    margin-bottom: 30px;
+    /* Eu dei um espaçamento abaixo do campo */
+    margin-top: 45px;
+    /* E também um espaçamento acima do campo */
+}
+
+/* Eu estilizo o input dentro da classe 'floating-label' para ele ocupar toda a largura e ter um bom espaçamento */
+.floating-label input {
+    width: 100%;
+    /* O campo vai ocupar toda a largura disponível */
+    padding: 10px 5px;
+    /* Eu coloquei um preenchimento interno para deixar o campo mais espaçoso */
+    border: 1px solid #ddd;
+    /* Uma borda suave para o campo */
+    border-radius: 5px;
+    /* Bordas arredondadas para o campo */
+    font-size: 16px;
+    /* O tamanho da fonte é 16px para ser legível */
+    box-sizing: border-box;
+    /* Eu uso 'box-sizing: border-box' para garantir que o padding e a borda não aumentem a largura total do campo */
+}
+
+/* O rótulo é posicionado sobre o campo de input, e eu faço ele flutuar quando o campo está em foco ou preenchido */
+.floating-label label {
+    position: absolute;
+    /* O rótulo fica posicionado absolutamente dentro do campo */
+    left: 10px;
+    /* Ele fica alinhado à esquerda do campo */
+    top: 50%;
+    /* E eu centralizo ele verticalmente */
+    transform: translateY(-50%);
+    /* Eu ajusto a posição vertical para que o rótulo fique realmente no centro */
+    font-size: 16px;
+    /* O tamanho do texto do rótulo é 16px */
+    color: #aaa;
+    /* A cor do rótulo é um cinza claro */
+    transition: all 0.2s ease-out;
+    /* Coloquei uma transição suave para o rótulo mover-se quando o campo for focado */
+    pointer-events: none;
+    /* Eu usei 'pointer-events: none' para evitar que o rótulo interfira com a interação do usuário */
+}
+
+/* Quando o input está em foco ou foi preenchido, o rótulo sobe */
+.floating-label input:focus+label,
+.floating-label input:not(:placeholder-shown)+label {
+    top: -15px;
+    /* Eu movo o rótulo para cima quando o campo está em foco ou já tem algo preenchido */
+    font-size: 16px;
+    /* O tamanho da fonte permanece o mesmo */
+    color: #333;
+    /* Eu mudo a cor do rótulo para um cinza mais escuro */
+}
+
+/* Eu removo o contorno padrão dos campos quando estão em foco e coloco uma sombra para dar destaque */
+.floating-label input:focus {
+    outline: none;
+    /* Eu removi o contorno padrão */
+    box-shadow: 0 0 0 2px #38393d;
+    /* Eu adicionei uma sombra ao redor do input para destacar que ele está em foco */
+}
+
+/* Estilizei os botões de submissão e fechamento para que eles tenham uma boa aparência */
+.submit-button {
+    margin-bottom: 25px;
+    /* Eu adicionei uma margem inferior para o botão não ficar grudado no conteúdo abaixo */
+    background-color: #A61F69;
+    /* O fundo do botão é um tom de rosa */
+    color: #fff;
+    /* A cor do texto do botão é branca */
+}
+
+/* O botão de fechar tem um fundo diferente para distinguir das outras ações */
+.close-button {
+    background-color: #272D40;
+    /* O fundo do botão de fechar é um tom de azul escuro */
+    color: #fff;
+    /* A cor do texto também é branca */
+}
+
+/* Os estilos para os botões de fechar e submeter são basicamente os mesmos */
+.close-button,
+.submit-button {
+    border: none;
+    /* Eu removi as bordas para deixar os botões mais limpos */
+    border-radius: 5px;
+    /* Bordas arredondadas para os botões */
+    cursor: pointer;
+    /* Eu usei o cursor de 'mãozinha' para indicar que eles são interativos */
+}
+
+/* Estilo para o botão de remoção */
+.remove-button {
+    background-color: #272D40;
+    /* Eu escolhi essa cor de fundo para o botão de remoção porque combina bem com o design geral */
+    color: #fff;
+    /* Eu coloquei a cor branca no texto para que fique legível sobre o fundo escuro */
+}
+
+/* Estilo para o modal de confirmação */
+.confirm-modal {
+    position: fixed;
+    /* Eu usei 'fixed' para garantir que a modal fique fixa na tela, independente do scroll */
+    top: 0;
+    /* Posicionei no topo da tela */
+    left: 0;
+    /* E à esquerda, para que ocupe toda a tela */
+    width: 100%;
+    /* A largura é 100% da tela */
+    height: 100vh;
+    /* A altura é 100% da altura da janela do navegador */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Eu apliquei um fundo semitransparente preto para criar um efeito de sobreposição */
+    display: flex;
+    /* Usei o Flexbox para garantir que o conteúdo da modal fique centralizado */
+    justify-content: center;
+    /* Alinha o conteúdo da modal horizontalmente no centro */
+    align-items: center;
+    /* E alinha o conteúdo da modal verticalmente no centro */
+    z-index: 9999;
+    /* A modal deve ficar acima de outros elementos, então eu dei um valor alto de z-index */
+}
+
+/* Estilo para o conteúdo da modal de confirmação */
+.confirm-modal-content {
+    background-color: white;
+    /* O fundo do conteúdo da modal é branco para contraste */
+    padding: 20px;
+    /* Eu adicionei um padding interno para dar mais espaço ao conteúdo */
+    border-radius: 10px;
+    /* Bordas arredondadas para dar um efeito mais suave */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Adicionei uma sombra sutil para dar um efeito de profundidade */
+    text-align: center;
+    /* O conteúdo é centralizado para melhorar a legibilidade */
+}
+
+/* Estilo para os botões de confirmação */
+.confirm-yes,
+.confirm-no {
+    padding: 10px 20px;
+    /* Adicionei padding nos botões para tornar o clique mais confortável */
+    border: none;
+    /* Removi as bordas para um visual mais limpo */
+    font-size: 16px;
+    /* O tamanho da fonte é de 16px para facilitar a leitura */
+    cursor: pointer;
+    /* Adicionei o cursor de mãozinha para indicar que os botões são clicáveis */
+    border-radius: 5px;
+    /* Bordas arredondadas nos botões */
+    margin: 5px;
+    /* Deixei um espaçamento entre os botões */
+    transition: background-color 0.3s;
+    /* Coloquei uma transição suave para o fundo dos botões */
+}
+
+/* Estilo para o botão 'Sim' */
+.btn-yes {
+    background-color: #A61F69;
+    /* Escolhi essa cor para o botão 'Sim', um tom de rosa */
+    color: white;
+    /* O texto do botão é branco */
+}
+
+/* Efeito de hover para o botão 'Sim' */
+.btn-yes:hover {
+    background-color: #A62D85;
+    /* Quando o usuário passar o mouse, a cor de fundo muda para um tom mais claro */
+}
+
+/* Estilo para o botão 'Não' */
+.btn-no {
+    background-color: #272D40;
+    /* Para o botão 'Não', escolhi uma cor mais escura, parecida com o botão de remoção */
+    color: white;
+    /* O texto também é branco para manter o contraste */
+}
+
+/* Efeito de hover para o botão 'Não' */
+.btn-no:hover {
+    background-color: #262B8C;
+    /* Quando o usuário passa o mouse, a cor de fundo muda para um tom de azul mais intenso */
+}
+
+/* Estilo para o footer */
+footer {
+    display: flex;
+    /* Usei flexbox para alinhar os itens no footer */
+    justify-content: center;
+    /* Alinhei os itens horizontalmente no centro */
+    align-items: center;
+    /* Alinhei os itens verticalmente no centro */
+    height: 50px;
+    /* Defini a altura do footer */
+    background-color: #464873;
+    /* O fundo do footer tem uma cor escura para combinar com o resto da página */
+    color: white;
+    /* O texto é branco para contraste */
+    text-align: center;
+    /* Alinhei o texto no centro */
+    font-size: 14px;
+    /* O tamanho da fonte é pequeno, adequado para o rodapé */
+    position: relative;
+    /* Coloquei o footer em posição relativa para que ele não afete outros elementos */
+    bottom: 0;
+    /* Eu posicionei o footer no fundo da página */
+    width: 100%;
+    /* O footer ocupa toda a largura da tela */
+    margin-top: 20px;
+    /* Eu adicionei um pequeno espaço acima do footer */
+}
+
+/* Removo a margem do parágrafo dentro do footer */
+footer p {
+    margin: 0;
+    /* Eu removi a margem do parágrafo para não ter espaçamento extra */
+}
+
+.user-list {
+    min-height: 285px;
+}
+
+/* Estilo responsivo para telas menores */
+@media (max-width: 768px) {
+    /* Quando a tela for menor que 768px (dispositivos móveis e tablets), eu aplico os seguintes ajustes */
+
+    header {
+        background: #464873;
+        /* O fundo do header permanece o mesmo */
+    }
+
+    main h1 {
+        text-align: center;
+        /* Eu centralizei o título (h1) em telas menores para melhor apresentação */
+    }
+
+    h1::after {
+        content: "UX";
+        /* Eu alterei o conteúdo do h1 para adicionar "UX" após o título em telas menores */
+    }
+
+    main h5 {
+        text-align: center;
+        /* Eu centralizei o subtítulo (h5) em telas menores */
+    }
+
+    .search-container {
+        flex-direction: column;
+        /* Organizei os elementos da search-container de forma vertical em telas pequenas */
+    }
+
+    .modal {
+        height: 100vh;
+        /* Eu fiz a modal ocupar toda a altura da tela no mobile */
+        top: 0;
+        /* Mantive a posição no topo da tela */
+        transform: none;
+        /* Removi qualquer transformação para manter a modal com a altura total */
+    }
+
+    /* Ajustes no conteúdo da modal */
+    .modal-content,
+    .confirm-modal-content {
+        width: 70%;
+        /* Eu ajustei a largura do conteúdo da modal para 70% da tela */
+        max-width: 70%;
+        /* O conteúdo tem uma largura máxima de 70% */
+        padding: 15px;
+        /* Diminui o padding para otimizar o espaço */
+    }
+
+    /* Ajustes nos botões */
+    .confirm-yes,
+    .confirm-no {
+        width: 100%;
+        /* Eu fiz os botões ocuparem 100% da largura da tela */
+        margin: 10px 0;
+        /* Aumentei a margem para garantir que os botões não fiquem muito próximos */
+    }
+
+    /* Ajustes no footer */
+    footer {
+        height: auto;
+        /* Eu mudei a altura do footer para se ajustar ao conteúdo */
+        padding: 10px 0;
+        /* O padding foi reduzido para adaptar o layout */
+        font-size: 12px;
+        /* O tamanho da fonte foi reduzido para telas menores */
+    }
+
+    #search,
+    #filter-city {
+        border-radius: 5px;
+        /* Mantive as bordas arredondadas para os campos de input */
+        height: 30px;
+        /* Defini a altura dos campos de input */
+        margin-bottom: 10px;
+        /* Adicionei um espaço abaixo dos inputs para melhorar o layout */
+    }
+}

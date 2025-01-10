@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Eu defino a codificação de caracteres para UTF-8, que é o padrão mais comum para garantir que os caracteres especiais sejam exibidos corretamente -->
+    <meta charset="UTF-8" />
+
+    <!-- Adicionei a tag viewport para garantir que a página seja responsiva em dispositivos móveis, ajustando a largura da página conforme o dispositivo -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Aqui, eu defino o título da página, que vai aparecer na aba do navegador -->
+    <title>UserX - Lista de Usuários</title>
+
+    <!-- Eu linkei o arquivo CSS externo (styles.css) para aplicar o estilo da página -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Também adicionei um favicon (ícone) que será exibido na aba do navegador -->
+    <link rel="icon" type="image/png" href="assets/1icon.ico" />
+  </head>
+
+  <body>
+    <!-- A seção de cabeçalho da página -->
+    <header>
+      <h1 aria-label="Lista de Usuários"></h1>
+      <!-- O título principal da página é um <h1> vazio, com o texto sendo adicionado via CSS usando a propriedade "content". 
+     Para melhorar a acessibilidade, utilizamos o atributo "aria-label" para descrever o conteúdo do título. -->
+    </header>
+
+    <main>
+      <!-- Eu adicionei um subtítulo <h5> para informar que a página mostra uma lista de usuários -->
+      <h5>Lista de Usuários</h5>
+
+      <!-- Criei um contêiner para os campos de busca e filtro, com um rótulo de acessibilidade para tornar a navegação mais fácil -->
+      <div class="search-container" aria-label="Contêiner de busca e filtros">
+        <!-- O campo de busca permite ao usuário procurar por nome -->
+        <input
+          type="text"
+          id="search"
+          placeholder="Buscar por nome..."
+          aria-label="Buscar por nome"
+        />
+
+        <!-- O botão de limpar a busca vai remover o texto do campo de pesquisa -->
+        <button id="clear-button" aria-label="Limpar busca">
+          Limpar Busca
+        </button>
+
+        <!-- O filtro de cidade permite que os usuários filtrem pela cidade -->
+        <select id="filter-city" aria-label="Filtrar por cidade">
+          <option value="">Filtrar por cidade</option>
+        </select>
+
+        <!-- O botão para adicionar um novo usuário abre um modal para inserção dos dados -->
+        <button id="add-user-button" aria-label="Adicionar novo usuário">
+          Adicionar Usuário
+        </button>
+      </div>
+
+      <!-- Coloquei uma mensagem que aparece enquanto os dados estão sendo carregados -->
+      <div id="loading" class="hidden">Carregando...</div>
+
+      <!-- Mensagem de "nenhum resultado encontrado" que será exibida caso não haja usuários -->
+      <div id="no-results" class="hidden">Nenhum resultado encontrado.</div>
+
+      <!-- Eu criei uma lista vazia de usuários, que será preenchida com os dados da API -->
+      <ul class="user-list" id="user-list"></ul>
+    </main>
+
+    <!-- O modal que aparece para adicionar um novo usuário -->
+    <div id="add-user-modal" class="modal hidden">
+      <div class="modal-content">
+        <h2>Adicionar Usuário</h2>
+
+        <!-- Formulário para adicionar um novo usuário -->
+        <form id="add-user-form">
+          <div class="form-group floating-label">
+            <!-- Campo para nome do usuário -->
+            <input
+              type="text"
+              id="user-name"
+              name="user-name"
+              placeholder=" "
+              required
+              aria-label="Nome do usuário"
+            />
+            <label for="user-name">Nome</label>
+          </div>
+
+          <div class="form-group floating-label">
+            <!-- Campo para e-mail do usuário -->
+            <input
+              type="email"
+              id="user-email"
+              name="user-email"
+              placeholder=" "
+              required
+              aria-label="E-mail do usuário"
+            />
+            <label for="user-email">E-mail</label>
+          </div>
+
+          <div class="form-group floating-label">
+            <!-- Campo para cidade do usuário -->
+            <input
+              type="text"
+              id="user-city"
+              name="user-city"
+              placeholder=" "
+              required
+              aria-label="Cidade do usuário"
+            />
+            <label for="user-city">Cidade</label>
+          </div>
+
+          <!-- Botões para enviar o formulário ou fechar o modal -->
+          <button
+            type="submit"
+            class="submit-button"
+            aria-label="Adicionar usuário"
+          >
+            Adicionar
+          </button>
+
+          <button
+            type="button"
+            class="close-button"
+            id="close-modal-button"
+            aria-label="Fechar modal"
+          >
+            Fechar
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Eu incluí um rodapé com informações de copyright -->
+    <footer>
+      <p>&copy; 2024 UserX. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- O script JavaScript é carregado por último para garantir que a estrutura da página já esteja carregada -->
+    <script src="app.js" defer></script>
+  </body>
+</html>
