@@ -1,6 +1,3 @@
-// Defino a URL da API onde os dados dos usuários serão carregados
-const apiUrl = "https://jsonplaceholder.typicode.com/users";
-
 // Pegando os elementos do DOM para que eu possa interagir com a interface
 const userList = document.getElementById("user-list");
 const loadingIndicator = document.getElementById("loading");
@@ -9,13 +6,12 @@ const searchInput = document.getElementById("search");
 const filterCity = document.getElementById("filter-city");
 const clearButton = document.getElementById("clear-button");
 const addUserButton = document.getElementById("add-user-button");
-
 const addUserModal = document.getElementById("add-user-modal");
 const addUserForm = document.getElementById("add-user-form");
 const closeModalButton = document.getElementById("close-modal-button");
-const errorMessage = document.createElement("div");
 
 // Crio um elemento para exibir mensagens de erro, mas deixo ele escondido no início
+const errorMessage = document.createElement("div");
 errorMessage.id = "error-message";
 errorMessage.classList.add("hidden", "error-message");
 addUserForm.appendChild(errorMessage);
@@ -24,22 +20,12 @@ addUserForm.appendChild(errorMessage);
 let users = [];
 let filteredUsers = [];
 
-// Função assíncrona para carregar os usuários da API
-async function fetchUsers() {
-  try {
-    showLoading(); // Exibo o indicador de carregamento enquanto os dados estão sendo carregados
-    const response = await fetch(apiUrl); // Faço a requisição para a API
-    if (!response.ok) throw new Error("Erro ao carregar os dados"); // Caso a resposta da API não seja bem-sucedida, lanço um erro
-    users = await response.json(); // Salvo os dados dos usuários recebidos
-    filteredUsers = [...users]; // Crio uma cópia dos usuários para aplicar filtros
-    displayUsers(users); // Exibo os usuários na tela
-    populateCityFilter(); // Preencho o filtro de cidade com as opções disponíveis
-    restoreStateFromLocalStorage(); // Tento restaurar os dados salvos no localStorage, se houver
-  } catch (error) {
-    showError(error.message); // Se ocorrer um erro, mostro uma mensagem de erro
-  } finally {
-    hideLoading(); // Ao final, escondo o indicador de carregamento
-  }
+// Defino a URL da API onde os dados dos usuários serão carregados
+const apiUrl = "https://jsonplaceholder.typicode.com/users";
+
+// Remove a classe hidden
+function showLoading() {
+  loadingIndicator.classList.remove("hidden");
 }
 
 // Função para exibir os usuários na tela
@@ -66,41 +52,49 @@ function displayUsers(userArray) {
   });
 }
 
-// Ao clicar no botão de adicionar usuário, mostro o modal para preencher os dados
-addUserButton.addEventListener("click", () => {
-  addUserModal.classList.remove("hidden"); // Exibo o modal
-});
+// Função para preencher o filtro de cidades
+function populateCityFilter() {
+  const cities = [...new Set(users.map((user) => user.address.city))]; // Crio uma lista única de cidades
+  cities.forEach((city) => {
+    const option = document.createElement("option");
+    option.value = city;
+    option.textContent = city;
+    filterCity.appendChild(option); // Adiciono as opções de cidade ao filtro
+  });
+}
+
+function restoreStateFromLocalStorage() {
+  const storedUsers = localStorage.getItem("users");
+  if (storedUsers) {
+    users = JSON.parse(storedUsers); // Recupero os usuários armazenados
+    filteredUsers = [...users]; // Faço uma cópia dos usuários para aplicar filtros
+    displayUsers(filteredUsers); // Exibo os usuários
+  }
+}
+
+// Função assíncrona para carregar os usuários da API
+async function fetchUsers() {
+  try {
+    showLoading(); // Exibo o indicador de carregamento enquanto os dados estão sendo carregados
+    const response = await fetch(apiUrl); // Faço a requisição para a API
+    if (!response.ok) throw new Error("Erro ao carregar os dados"); // Caso a resposta da API não seja bem-sucedida, lanço um erro
+    users = await response.json(); // Salvo os dados dos usuários recebidos
+    filteredUsers = [...users]; // Crio uma cópia dos usuários para aplicar filtros
+    displayUsers(users); // Exibo os usuários na tela
+    populateCityFilter(); // Preencho o filtro de cidade com as opções disponíveis
+    restoreStateFromLocalStorage(); // Tento restaurar os dados salvos no localStorage, se houver
+  } catch (error) {
+    showError(error.message); // Se ocorrer um erro, mostro uma mensagem de erro
+  } finally {
+    hideLoading(); // Ao final, escondo o indicador de carregamento
+  }
+}
 
 // Função para exibir uma mensagem de erro
 function showError(message) {
   errorMessage.textContent = message; // Defino o texto da mensagem de erro
   errorMessage.classList.remove("hidden"); // Exibo a mensagem de erro
 }
-
-// Quando o botão de fechar o modal é clicado, verifico se os campos foram preenchidos
-closeModalButton.addEventListener("click", () => {
-  const name = document.getElementById("user-name").value.trim();
-  const email = document.getElementById("user-email").value.trim();
-  const city = document.getElementById("user-city").value.trim();
-
-  if (name || email || city) {
-    // Se algum campo foi preenchido, mostro um modal perguntando se deseja fechar sem salvar
-    showConfirmModal("Alguns campos foram preenchidos, mas não foram salvos. Deseja realmente fechar?")
-      .then((confirmClose) => {
-        if (confirmClose) {
-          addUserModal.classList.add("hidden");
-          errorMessage.classList.add("hidden"); // Escondo a mensagem de erro
-          errorMessage.textContent = "";
-          addUserForm.reset(); // Reseto o formulário
-        }
-      });
-  } else {
-    // Se os campos estão vazios, fecho o modal normalmente
-    addUserModal.classList.add("hidden");
-    errorMessage.classList.add("hidden");
-    errorMessage.textContent = "";
-  }
-});
 
 // Função para mostrar um modal de confirmação (exemplo de uso de Promise)
 function showConfirmModal(message) {
@@ -127,6 +121,99 @@ function showConfirmModal(message) {
     });
   });
 }
+
+// Funções de filtro
+function filterByName() {
+  const query = searchInput.value.toLowerCase();
+  filteredUsers = users.filter((user) =>
+    user.name.toLowerCase().includes(query) // Filtro os usuários pelo nome
+  );
+  filterByCity(); // Aplico o filtro de cidade após o de nome
+}
+
+function filterByCity() {
+  const selectedCity = filterCity.value;
+  const results = filteredUsers.filter((user) =>
+    selectedCity ? user.address.city === selectedCity : true // Filtro de acordo com a cidade selecionada
+  );
+  displayUsers(results); // Exibo os resultados filtrados
+}
+
+function hideLoading() {
+  loadingIndicator.classList.add("hidden");
+}
+
+// Funções de salvar e restaurar o estado no localStorage
+function saveStateToLocalStorage() {
+  localStorage.setItem("users", JSON.stringify(users)); // Salvo os dados dos usuários
+}
+
+// Inicializo os dados ao carregar a página
+window.addEventListener("load", () => {
+  fetchUsers();
+});
+
+// Ao clicar no botão de adicionar usuário, mostro o modal para preencher os dados
+addUserButton.addEventListener("click", () => {
+  addUserModal.classList.remove("hidden"); // Exibo o modal
+});
+
+// Quando o botão de fechar o modal é clicado, verifico se os campos foram preenchidos
+closeModalButton.addEventListener("click", () => {
+  const name = document.getElementById("user-name").value.trim();
+  const email = document.getElementById("user-email").value.trim();
+  const city = document.getElementById("user-city").value.trim();
+
+  if (name || email || city) {
+    // Se algum campo foi preenchido, mostro um modal perguntando se deseja fechar sem salvar
+    showConfirmModal("Alguns campos foram preenchidos, mas não foram salvos. Deseja realmente fechar?")
+      .then((confirmClose) => {
+        if (confirmClose) {
+          addUserModal.classList.add("hidden");
+          errorMessage.classList.add("hidden"); // Escondo a mensagem de erro
+          errorMessage.textContent = "";
+          addUserForm.reset(); // Reseto o formulário
+        }
+      });
+  } else {
+    // Se os campos estão vazios, fecho o modal normalmente
+    addUserModal.classList.add("hidden");
+    errorMessage.classList.add("hidden");
+    errorMessage.textContent = "";
+  }
+});
+
+// Adiciono os ouvintes de eventos para os filtros
+searchInput.addEventListener("input", filterByName);
+filterCity.addEventListener("change", filterByCity);
+
+clearButton.addEventListener("click", () => {
+  // Limpa o campo de busca e reseta o filtro de cidade
+  searchInput.value = "";
+  filterCity.value = "";
+
+  // Restaura a lista de usuários completa
+  filteredUsers = [...users];
+  displayUsers(filteredUsers);
+
+  // Esconde a mensagem de "sem resultados" se necessário
+  noResults.classList.add("hidden");
+});
+
+// Função para lidar com a remoção de um usuário
+userList.addEventListener("click", (event) => {
+  if (event.target && event.target.classList.contains("remove-button")) {
+    const userItem = event.target.closest("li");
+    userItem.classList.add("fade-out"); // Adiciono uma animação de fade-out
+    setTimeout(() => userItem.remove(), 500); // Removo o item após a animação
+
+    // Removo o usuário dos arrays de usuários
+    const userName = userItem.querySelector(".user-info span strong").nextElementSibling.textContent;
+    users = users.filter(user => user.name !== userName);
+    filteredUsers = filteredUsers.filter(user => user.name !== userName);
+    saveStateToLocalStorage(); // Atualizo o localStorage após a remoção
+  }
+});
 
 // Função que é chamada quando o formulário de adicionar um novo usuário é enviado
 addUserForm.addEventListener("submit", (event) => {
@@ -175,89 +262,3 @@ addUserForm.addEventListener("submit", (event) => {
   addUserForm.reset(); // Reseto o formulário
   saveStateToLocalStorage(); // Salvo o estado atualizado no localStorage
 });
-
-// Função para lidar com a remoção de um usuário
-userList.addEventListener("click", (event) => {
-  if (event.target && event.target.classList.contains("remove-button")) {
-    const userItem = event.target.closest("li");
-    userItem.classList.add("fade-out"); // Adiciono uma animação de fade-out
-    setTimeout(() => userItem.remove(), 500); // Removo o item após a animação
-
-    // Removo o usuário dos arrays de usuários
-    const userName = userItem.querySelector(".user-info span strong").nextElementSibling.textContent;
-    users = users.filter(user => user.name !== userName);
-    filteredUsers = filteredUsers.filter(user => user.name !== userName);
-    saveStateToLocalStorage(); // Atualizo o localStorage após a remoção
-  }
-});
-
-// Função para preencher o filtro de cidades
-function populateCityFilter() {
-  const cities = [...new Set(users.map((user) => user.address.city))]; // Crio uma lista única de cidades
-  cities.forEach((city) => {
-    const option = document.createElement("option");
-    option.value = city;
-    option.textContent = city;
-    filterCity.appendChild(option); // Adiciono as opções de cidade ao filtro
-  });
-}
-
-// Funções de filtro
-function filterByName() {
-  const query = searchInput.value.toLowerCase();
-  filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(query) // Filtro os usuários pelo nome
-  );
-  filterByCity(); // Aplico o filtro de cidade após o de nome
-}
-
-function filterByCity() {
-  const selectedCity = filterCity.value;
-  const results = filteredUsers.filter((user) =>
-    selectedCity ? user.address.city === selectedCity : true // Filtro de acordo com a cidade selecionada
-  );
-  displayUsers(results); // Exibo os resultados filtrados
-}
-
-// Funções de carregamento
-function showLoading() {
-  loadingIndicator.classList.remove("hidden");
-}
-
-function hideLoading() {
-  loadingIndicator.classList.add("hidden");
-}
-
-// Funções de salvar e restaurar o estado no localStorage
-function saveStateToLocalStorage() {
-  localStorage.setItem("users", JSON.stringify(users)); // Salvo os dados dos usuários
-}
-
-function restoreStateFromLocalStorage() {
-  const storedUsers = localStorage.getItem("users");
-  if (storedUsers) {
-    users = JSON.parse(storedUsers); // Recupero os usuários armazenados
-    filteredUsers = [...users]; // Faço uma cópia dos usuários para aplicar filtros
-    displayUsers(filteredUsers); // Exibo os usuários
-  }
-}
-
-// Adiciono os ouvintes de eventos para os filtros
-searchInput.addEventListener("input", filterByName);
-filterCity.addEventListener("change", filterByCity);
-
-clearButton.addEventListener("click", () => {
-  // Limpa o campo de busca e reseta o filtro de cidade
-  searchInput.value = "";
-  filterCity.value = "";
-
-  // Restaura a lista de usuários completa
-  filteredUsers = [...users];
-  displayUsers(filteredUsers);
-
-  // Esconde a mensagem de "sem resultados" se necessário
-  noResults.classList.add("hidden");
-});
-
-// Inicializo os dados ao carregar a página
-fetchUsers();
